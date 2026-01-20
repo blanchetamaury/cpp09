@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 11:32:14 by amaury            #+#    #+#             */
-/*   Updated: 2026/01/18 18:51:56 by amaury           ###   ########.fr       */
+/*   Updated: 2026/01/19 10:30:07 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,9 @@ void	printLine(BitcoinExchange &data, std::string line, std::string date, int ye
 		ssLimit << yearsLimit;
 		if (date == (ssLimit.str() + "-01-01"))
 			throw (std::invalid_argument("Error: date not found in database."));
+		else
+			std::cout << line.substr(0, line.find(" ")) << " => " << value << " = " << data.getData()[date] * value << std::endl;
 	}
-		std::cout << date << " => " << value << " = " << data.getData()[date] * value << std::endl;
 }
 
 std::string	checkLine(BitcoinExchange &data, std::string line, int yearsLimit) {
