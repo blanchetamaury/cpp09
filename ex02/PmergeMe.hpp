@@ -6,7 +6,7 @@
 /*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:19:16 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/22 17:02:42 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/23 10:28:57 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ class PmergeMe {
         void                fordJohnson();
         bool                checkMax(int pos);
         void                swapper(int pos);
+        std::vector<int>    splitStack();
+        int                 binarySearch(std::vector<int> stack, int elem);
 };
 
 #endif

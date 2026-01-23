@@ -6,13 +6,14 @@
 /*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:20:03 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/22 17:35:19 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:06:31 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
 void    PmergeMe::initJacobList() {
+    jacobList.push_back(1);
     jacobList.push_back(3);
     jacobList.push_back(5);
     jacobList.push_back(11);
@@ -91,6 +92,67 @@ void    PmergeMe::swapper(int pos) {
     std::cout << std::endl;
 }
 
+int     PmergeMe::binarySearch(std::vector<int> stack, int elem) {
+    int start = stack.size() / pairSize;
+    start = start / 2 * pairSize;
+    int prevElem = -1;
+    int nextElem = -1;
+    if (start - pairSize >= 0)
+        prevElem = stack[start - pairSize];
+    if (start + pairSize <= stack.size())
+        nextElem = stack[start + pairSize];
+    while (true) {
+        if (prevElem == -1) {
+            if (stack[start] >)
+        }
+        else if (nextElem == -1) {
+            
+        }
+        else if (stack[prev]) {
+            
+        }
+    }
+}
+
+
+std::vector<int>    PmergeMe::splitStack() {
+    std::vector<int>    newstack;
+    std::vector<int>    tmp;
+    std::vector<int>    res;
+
+    for (int start = 0; start < pairSize * 2; start++) {
+        newstack.push_back(stack[start]);
+    }
+    for (int start = pairSize * 2; static_cast<size_t>(start) < stack.size(); start += pairSize * 2) {
+        for (int i = 0; i < pairSize; i++) {
+            tmp.push_back(stack[start + i]);
+        }
+        for (int i = pairSize; i < pairSize * 2; i++) {
+            newstack.push_back(stack[start + i]);
+        }
+    }
+    for (size_t i = stack.size() - stack.size() % pairSize; i < stack.size(); i++) {
+        res.push_back(stack[i]);
+    }
+
+    for (std::vector<int>::iterator it = tmp.begin(); it != tmp.end(); it++) {
+        std::cout << "iterator[tmp] : " << *it << std::endl; 
+    }
+    std::cout << std::endl;
+    for (std::vector<int>::iterator it = newstack.begin(); it != newstack.end(); it++) {
+        std::cout << "iterator[newstack] : " << *it << std::endl; 
+    }
+    std::cout << std::endl;
+    for (std::vector<int>::iterator it = res.begin(); it != res.end(); it++) {
+        std::cout << "iterator[res] : " << *it << std::endl; 
+    }
+    std::cout << std::endl;
+
+    
+    
+    return (tmp);
+}
+
 void    PmergeMe::fordJohnson() {
     pairSize = 2;
     initJacobList();
@@ -104,6 +166,20 @@ void    PmergeMe::fordJohnson() {
             std::cout << "iterator : " << *it << std::endl; 
         }
         pairSize *= 2;
+    }
+
+    std::cout << std::endl;
+    std::cout << "----------- insertion ---------" << std::endl;
+    std::cout << std::endl;
+    
+    std::vector<int> tmp;
+    while (pairSize > 1) {
+        std::cout << "PairSize : " << pairSize << std::endl;
+        if (stack.size() / pairSize >= 3) {
+            tmp = splitStack();
+            break ;
+        }    
+        pairSize = pairSize / 2;
     }
     std::cout << std::endl;
 }
