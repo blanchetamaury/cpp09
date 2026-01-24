@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:19:16 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/23 10:28:57 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/24 22:54:20 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <sstream>
 #include <algorithm>
 
@@ -40,6 +41,10 @@ class PmergeMe {
         void                swapper(int pos);
         std::vector<int>    splitStack();
         int                 binarySearch(std::vector<int> stack, int elem);
+        std::vector<int>    addPair(std::vector<int> dst, std::vector<int> *src);
+        std::vector<int>    addRes(std::vector<int> dst, std::vector<int> *src);
+        std::vector<int>    insertPair(std::vector<int> dst, std::vector<int> *src, int pos, int len);
+
 };
 
 #endif
