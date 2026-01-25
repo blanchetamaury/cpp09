@@ -6,7 +6,7 @@
 /*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:19:16 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/25 18:39:14 by amaury           ###   ########.fr       */
+/*   Updated: 2026/01/25 21:43:49 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,40 @@
 #include <deque>
 #include <sstream>
 #include <algorithm>
+#include <limits>
 
+void                parsingInt(std::string input);
+int                 convertStringToInt(std::string value);
+float               convertStringToFloat(std::string value);
+long long           convertStringToLongLong(std::string value);
+
+
+/// @brief PmergeMe sort list of element
+/// @tparam FordJohnson type of the container and the type of element for the stack, exemple : std::vector<int> or std::deque<float>
+/// @tparam Jacobsthal type of the container for the list of Jacobsthal, exemple : std::vector<int>
 template<typename FordJohnson, typename Jacobsthal>
 class PmergeMe {
     private:
+        typedef typename FordJohnson::value_type value_type;
+        
+        /// @brief is the list of Jacobsthal
         Jacobsthal      jacobList;
+        /// @brief is the list of elements to sort
         FordJohnson     stack;
+        /// @brief is the size of pair in the stack
         int             pairSize;
         
+        /// @brief initializes the first three numbers in the list
         void    initJacobList();
+        /// @brief add a number of the list
         void    addJacobList();
-
-        typedef typename FordJohnson::value_type value_type;
 
         void pushstack(const char* s) {
             pushstack_impl(s, value_type());
         }
 
         void pushstack_impl(const char* s, int) {
+            parsingInt(s);
             int v = convertStringToInt(std::string(s));
             stack.push_back(v);
         }
@@ -54,25 +70,98 @@ class PmergeMe {
         }
         
     public:
+        /// @brief Default Constructor
         PmergeMe();
+        /// @brief Default Destructor
         ~PmergeMe();
+        /// @brief Constructor by copy
+        /// @param other the element to copy
         PmergeMe(const PmergeMe<FordJohnson,Jacobsthal> &other);
+        /// @brief Constructor by operator '='
+        /// @param other the elemnt to copy
+        /// @return the new copy
         PmergeMe<FordJohnson,Jacobsthal> &operator=(const PmergeMe<FordJohnson,Jacobsthal> &other);
 
-        int                 convertStringToInt(std::string value);
-        float               convertStringToFloat(std::string value);
+        /// @brief create the stack of elements to be sorted 
+        /// @param argc number of elements
+        /// @param argv list of elements
         void                CreateList(int argc, char **argv);
+        
+        /// @brief launch Ford-Johnson algorithm
         void                fordJohnson();
-        bool                checkMax(int pos);
-        void                swapper(int pos);
-        FordJohnson         splitStack();
-        int                 binarySearch(FordJohnson stack, value_type elem);
-        FordJohnson         addPair(FordJohnson dst, FordJohnson *src);
-        FordJohnson         addRes(FordJohnson dst, FordJohnson *src);
-        FordJohnson         insertPair(FordJohnson dst, FordJohnson *src, int pos, int len);
+        /// @brief Check the pair and the next pair 
+        /// @param pos the pos of the pair in the stack
+        /// @return true if pos < pos - 1 and false if pos > pos -1
+        bool                checkPairMax(int pos);
+        /// @brief swap the pair pos
+        /// @param pos the pos of the pair
+        void                swapPair(int pos);
         void                swap(value_type &a, value_type &b);
+        
+        /**
+         * @brief Split the stack of elements following the pattern and use number of Jacobsthal for insert the tmp pair to the main.
+         * 
+         *  the pattern before: 
+         * 
+         *  - main: b1 a1 b2 a2 b3 a3 b4
+         * 
+         *  the pattern after:
+         * 
+         * - main: b1 a1 a2 a3
+         * 
+         * - tmp:  b2 b3 b4
+         *
+         * 
+         * @return The reordered stack
+         */ 
+        void                splitStack();
+        /// @brief find the pos for insert the element
+        /// @param stack the liste of elements
+        /// @param elem the element for search pos
+        /// @return the pos found
+        int                 binarySearch(FordJohnson stack, value_type elem);
+        
+        /// @brief add the first pair of src to dst and delete it to src
+        /// @param dst list of elements
+        /// @param src adress list of elements
+        /// @return the dst list
+        FordJohnson         addPair(FordJohnson dst, FordJohnson *src);
+        /// @brief add the rest of the dst elements from the adress of src and clear src  
+        /// @param dst list of elements
+        /// @param src adress list of elements
+        /// @return the dst list
+        FordJohnson         addRes(FordJohnson dst, FordJohnson *src);
+        /// @brief insert the src[len] in the pos of the dst elements
+        /// @param dst list of elements
+        /// @param src adress list of elements
+        /// @param pos position to add the elements in dst
+        /// @param len position for the dst elements
+        /// @return the dst list
+        FordJohnson         insertPair(FordJohnson dst, FordJohnson *src, int pos, int len);
 
+        /// @brief print the list of Jacobsthal
+        /// @param startInput a starting phrase to personalize
+        void                printJacobsthal(std::string startInput);
+        /// @brief print the list of elements
+        /// @param startInput a starting phrase to personalize
+        void                printStack(std::string startInput);
 };
+
+template<typename FordJohnson, typename Jacobsthal>
+void    PmergeMe<FordJohnson,Jacobsthal>::printStack(std::string startInput) {
+    std::cout << startInput;
+    for (typename FordJohnson::iterator it = stack.begin(); it != stack.end(); it++)
+        std::cout << *it << " "; 
+    std::cout << std::endl;
+}
+
+template<typename FordJohnson, typename Jacobsthal>
+void    PmergeMe<FordJohnson,Jacobsthal>::printJacobsthal(std::string startInput) {
+    std::cout << startInput;
+    for (typename Jacobsthal::iterator it = jacobList.begin(); it != jacobList.end(); it++)
+        std::cout << *it << " "; 
+    std::cout << std::endl;
+}
 
 template<typename FordJohnson, typename Jacobsthal>
 void    PmergeMe<FordJohnson,Jacobsthal>::initJacobList() {
@@ -90,23 +179,6 @@ void    PmergeMe<FordJohnson,Jacobsthal>::addJacobList() {
     it--;
     value += (*it * 2);
     jacobList.push_back(value);
-}
-
-template<typename FordJohnson, typename Jacobsthal>
-int PmergeMe<FordJohnson,Jacobsthal>::convertStringToInt(std::string value) {
-    std::stringstream ss(value);
-    int nb = 0;
-
-    ss >> nb;
-    return nb;
-}
-
-template<typename FordJohnson, typename Jacobsthal>
-float PmergeMe<FordJohnson,Jacobsthal>::convertStringToFloat(std::string value) {
-    std::stringstream ss(value);
-    float nb = 0;
-    ss >> nb;
-    return nb;
 }
 
 template<typename FordJohnson, typename Jacobsthal>
@@ -132,22 +204,17 @@ PmergeMe<FordJohnson,Jacobsthal> &PmergeMe<FordJohnson,Jacobsthal>::operator=(co
 
 template<typename FordJohnson, typename Jacobsthal>
 void    PmergeMe<FordJohnson,Jacobsthal>::CreateList(int argc, char **argv) {
-    for (int i = 1; i < argc; i++) {
-        std::string tmp = argv[i];
-        if (tmp.find("-") != std::string::npos)
-            throw (std::invalid_argument("Error"));
+    for (int i = 1; i < argc; i++)
         pushstack(argv[i]);
-    }
 }
 
 template<typename FordJohnson, typename Jacobsthal>
-bool    PmergeMe<FordJohnson,Jacobsthal>::checkMax(int pos) {
+bool    PmergeMe<FordJohnson,Jacobsthal>::checkPairMax(int pos) {
     int first = pairSize / 2 - 1;
     if (pos + first >= (int)stack.size() || pos + pairSize - 1 >= (int)stack.size())
         return true;
-    if (stack[pos + first] > stack[pos + pairSize - 1]) {
+    if (stack[pos + first] > stack[pos + pairSize - 1])
         return (false);
-    }
     return (true);
 }
 
@@ -159,11 +226,10 @@ void     PmergeMe<FordJohnson,Jacobsthal>::swap(value_type &a, value_type &b) {
 }
 
 template<typename FordJohnson, typename Jacobsthal>
-void    PmergeMe<FordJohnson,Jacobsthal>::swapper(int pos) {
+void    PmergeMe<FordJohnson,Jacobsthal>::swapPair(int pos) {
     int len = pairSize / 2;
-    for (int i = 0; i < len; i++) {
+    for (int i = 0; i < len; i++)
         swap(stack[pos + i], stack[pos + i + len]);
-    }
 }
 
 template<typename FordJohnson, typename Jacobsthal>
@@ -215,7 +281,7 @@ FordJohnson    PmergeMe<FordJohnson,Jacobsthal>::addRes(FordJohnson dst, FordJoh
 }
 
 template<typename FordJohnson, typename Jacobsthal>
-FordJohnson    PmergeMe<FordJohnson,Jacobsthal>::splitStack() {
+void    PmergeMe<FordJohnson,Jacobsthal>::splitStack() {
     FordJohnson    newstack;
     FordJohnson    tmp;
     FordJohnson    res;
@@ -231,16 +297,13 @@ FordJohnson    PmergeMe<FordJohnson,Jacobsthal>::splitStack() {
         int len = (jacobList[posJacob] - jacobList[posJacob -1]) * pairSize -1;
         while (len >= static_cast<int>(tmp.size()))
             len -= pairSize;
-        for (; len >= 0; len -= pairSize) {
-            int posFound = binarySearch(newstack, tmp[len]);
-            newstack = insertPair(newstack, &tmp, posFound, len);
-        }
+        for (; len >= 0; len -= pairSize)
+            newstack = insertPair(newstack, &tmp, binarySearch(newstack, tmp[len]), len);
         if (posJacob + 2 > static_cast<int>(jacobList.size()))
             addJacobList();
     }
     stack = addRes(stack, &newstack);
     stack = addRes(stack, &res);
-    return (stack);
 }
 
 template<typename FordJohnson, typename Jacobsthal>
@@ -249,24 +312,18 @@ void    PmergeMe<FordJohnson,Jacobsthal>::fordJohnson() {
     initJacobList();
     while (static_cast<size_t>(pairSize) < stack.size()) {
         for (int pos = 0; static_cast<size_t>(pos) < stack.size(); pos += pairSize) {
-            if (checkMax(pos) == false)
-                swapper(pos);
+            if (checkPairMax(pos) == false)
+                swapPair(pos);
         }
         pairSize *= 2;
     }
     
-    FordJohnson tmp;
     while (pairSize > 0) {
-        tmp = splitStack();
+        splitStack();
         if (pairSize == 1)
             break ;
         pairSize = pairSize / 2;
     }
-    std::cout << "AFTER : ";
-    for (typename FordJohnson::iterator it = stack.begin(); it != stack.end(); it++) {
-        std::cout << *it << " "; 
-    }
-    std::cout << std::endl;
 }
 
 #endif
