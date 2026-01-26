@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:20:03 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/25 20:41:00 by amaury           ###   ########.fr       */
+/*   Updated: 2026/01/26 15:58:53 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ float convertStringToFloat(std::string value) {
 }
 
 void parsingInt(std::string input) {
+    if (input.size() == 0)
+        throw (std::invalid_argument("Error"));
     long long value = convertStringToLongLong(input);
     if (value > std::numeric_limits<int>::max())
         throw (std::invalid_argument("Error: not a int argument"));

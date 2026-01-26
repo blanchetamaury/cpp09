@@ -3,30 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:04 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/25 21:40:47 by amaury           ###   ########.fr       */
+/*   Updated: 2026/01/26 15:57:25 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include <ctime>
 
 int main(int argc, char **argv) {
+    
     try {
         if (argc < 2)
-            throw (std::invalid_argument("Error"));
+            throw (std::invalid_argument("Error"));        
+        struct timespec start, end;
         PmergeMe< std::vector<int>, std::vector<int> > vectorFordJohnson;
         vectorFordJohnson.CreateList(argc, argv);
         vectorFordJohnson.printStack("Before: ");
+        timespec_get(&start, TIME_UTC);
         vectorFordJohnson.fordJohnson();
+        timespec_get(&end, TIME_UTC);
         vectorFordJohnson.printStack("After: ");
-        vectorFordJohnson.printJacobsthal("Jacob: ");
+        long double elapsed_us = (end.tv_sec - start.tv_sec) * 1e6 + (end.tv_nsec - start.tv_nsec) / 1e3;
+        std::cout << std::fixed << "Time to process a range of : " << vectorFordJohnson.GetSize() << " elements with std::vector : " <<  elapsed_us << " us" << std::endl;
+        //vectorFordJohnson.printJacobsthal("\nJacob: ");
+    }
+    catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
+    
+    try {
+        if (argc < 2)
+            throw (std::invalid_argument("Error"));
+        struct timespec start, end;
         PmergeMe< std::deque<int>, std::vector<int> > dequeFordJohnson;
         dequeFordJohnson.CreateList(argc, argv);
-        dequeFordJohnson.printStack("Before: ");
+        timespec_get(&start, TIME_UTC);
+        //dequeFordJohnson.printStack("Before: ");
         dequeFordJohnson.fordJohnson();
-        dequeFordJohnson.printStack("After: ");
+        timespec_get(&end, TIME_UTC);
+        long double elapsed_us = (end.tv_sec - start.tv_sec) * 1e6 + (end.tv_nsec - start.tv_nsec) / 1e3;
+        std::cout << std::fixed << "Time to process a range of : " << dequeFordJohnson.GetSize() << " elements with std::deque : " <<  elapsed_us << " us" << std::endl;
+        //dequeFordJohnson.printStack("After: ");
     }
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;

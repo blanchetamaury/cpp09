@@ -6,7 +6,7 @@
 /*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:20:17 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/20 10:11:39 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/26 16:13:25 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ std::stack<std::string> next(std::stack<std::string> token, std::string *str, st
 }
 
 void RPN::algo(std::string arg) {
+    if (arg.empty())
+        throw (std::invalid_argument("Error: empty argument."));
     while (!arg.empty()) {
         data = next(data, &arg, " ");
         if (data.top().size() != 1)
@@ -106,5 +108,4 @@ void RPN::algo(std::string arg) {
     }
     if (data.size() > 1)
         throw (std::invalid_argument("Error: stack size."));
-    std::cout << data.top() << std::endl;
 }
