@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 11:32:14 by amaury            #+#    #+#             */
-/*   Updated: 2026/01/19 10:30:07 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/26 21:31:43 by amaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,19 @@ bool isValidDate(BitcoinExchange &data,const std::string& s, std::string *date, 
 
 void	printLine(BitcoinExchange &data, std::string line, std::string date, int yearsLimit) {
 	float		value = 0;
+	bool		status = false;
 	
-	std::stringstream ss(line.substr(line.find(" ", line.find(" ") + 1)));
+	std::string num = line.substr(line.find(" ", line.find(" ") + 1) + 1);
+	for (int i = 0; num[i]; i++) {
+		if (!isdigit(num[i]) && num[i] != '.')
+			throw (std::invalid_argument("Error: bad input => " + line));
+		if (num[i] == '.') {
+			if (status == true)
+				throw (std::invalid_argument("Error: bad input => " + line));
+			status = true;
+		}
+	}
+	std::stringstream ss(num);
 	ss >> value;
 	if (value < 0)
 		throw (std::invalid_argument("Error: not a positive number."));
@@ -113,7 +124,10 @@ void	printLine(BitcoinExchange &data, std::string line, std::string date, int ye
 
 std::string	checkLine(BitcoinExchange &data, std::string line, int yearsLimit) {
 	std::string date;
-	if (line.find(" ", line.find(" ") + 1) == std::string::npos)
+	if (line.find(" ") == std::string::npos)
+		throw (std::invalid_argument("Error: bad input => " + line));
+	std::string sub = line.substr(line.find(" "));
+	if (sub.size() < 3 || ( sub[0] != ' ' && sub[1] != '|' && sub[2] != ' '))
 		throw (std::invalid_argument("Error: bad input => " + line));
 	if (!isValidDate(data, line.substr(0, line.find(" ")), &date, yearsLimit))
 		throw (std::invalid_argument("Error: bad input => " + line.substr(0, line.find(" "))));
