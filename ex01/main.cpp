@@ -6,7 +6,7 @@
 /*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:47:25 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/19 14:58:12 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/29 10:26:15 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@ int main(int argc, char **argv) {
     }
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
+        return (1);
     }
+    return (0);    
 }

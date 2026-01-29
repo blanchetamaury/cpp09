@@ -6,7 +6,7 @@
 /*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:18:00 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/20 09:44:03 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/29 10:40:06 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ class RPN {
         RPN &operator=(const RPN &other);
         
         void        algo(std::string);
-        int         convertStringToInt(std::string value);
-        std::string convertIntToString(int value);
+        double      convertStringToInt(std::string value);
+        std::string convertIntToString(double value);
 
         void         add();
         void         divide();
         void         substract();
         void         multiply();
 
-        void         convert(int *a, int *b);
+        void         convert(double *a, double *b);
 
         
 };

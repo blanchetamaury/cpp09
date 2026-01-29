@@ -6,7 +6,7 @@
 /*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 16:21:04 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/26 15:57:25 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/27 09:49:22 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int main(int argc, char **argv) {
         vectorFordJohnson.printStack("After: ");
         long double elapsed_us = (end.tv_sec - start.tv_sec) * 1e6 + (end.tv_nsec - start.tv_nsec) / 1e3;
         std::cout << std::fixed << "Time to process a range of : " << vectorFordJohnson.GetSize() << " elements with std::vector : " <<  elapsed_us << " us" << std::endl;
-        //vectorFordJohnson.printJacobsthal("\nJacob: ");
     }
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
@@ -41,12 +40,10 @@ int main(int argc, char **argv) {
         PmergeMe< std::deque<int>, std::vector<int> > dequeFordJohnson;
         dequeFordJohnson.CreateList(argc, argv);
         timespec_get(&start, TIME_UTC);
-        //dequeFordJohnson.printStack("Before: ");
         dequeFordJohnson.fordJohnson();
         timespec_get(&end, TIME_UTC);
         long double elapsed_us = (end.tv_sec - start.tv_sec) * 1e6 + (end.tv_nsec - start.tv_nsec) / 1e3;
         std::cout << std::fixed << "Time to process a range of : " << dequeFordJohnson.GetSize() << " elements with std::deque : " <<  elapsed_us << " us" << std::endl;
-        //dequeFordJohnson.printStack("After: ");
     }
     catch (std::exception &e) {
         std::cerr << e.what() << std::endl;

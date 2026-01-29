@@ -6,7 +6,7 @@
 /*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:20:17 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/26 16:13:25 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/01/29 10:40:41 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,43 +24,37 @@ RPN &RPN::operator=(const RPN &other) {
     return *this;
 }
 
-std::string RPN::convertIntToString(int value) {
+std::string RPN::convertIntToString(double value) {
     std::stringstream ss;
     ss << value;
-
     return (ss.str());
 }
 
-int RPN::convertStringToInt(std::string value) {
+double RPN::convertStringToInt(std::string value) {
     std::stringstream ss(value);
-    int nb = 0;
-
+    double nb = 0;
     ss >> nb;
     return nb;
 }
 
-void    RPN::convert(int *a, int *b) {
+void    RPN::convert(double *a, double *b) {
     if (data.size() < 3)
         throw (std::invalid_argument("Error: stack size."));
     data.pop();
-    if (!isdigit(data.top()[0]))
-        throw (std::invalid_argument("Error: not a number [" + data.top() + "]."));
     *a = convertStringToInt(data.top());
     data.pop();
-    if (!isdigit(data.top()[0]))
-        throw (std::invalid_argument("Error: not a number [" + data.top() + "]."));
     *b = convertStringToInt(data.top());
     data.pop();
 }
 
 void RPN::add() {
-    int a,b;
+    double a,b;
     convert(&a, &b);
     data.push(convertIntToString(a + b));
 }
 
 void RPN::divide() {
-    int a,b;
+    double a,b;
     convert(&a, &b);
     if (a == 0)
         throw(std::invalid_argument("Error: division by zero."));
@@ -68,13 +62,13 @@ void RPN::divide() {
 }
 
 void RPN::substract() {
-    int a,b;
+    double a,b;
     convert(&a, &b);
     data.push(convertIntToString(b - a));
 }
 
 void RPN::multiply() {
-    int a,b;
+    double a,b;
     convert(&a, &b);
     data.push(convertIntToString(a * b));
 }
@@ -102,10 +96,12 @@ void RPN::algo(std::string arg) {
         if (data.top().size() != 1)
             throw (std::invalid_argument("Error: [" + data.top() + "]."));
         if (data.top() == "-") substract();
-        if (data.top() == "+") add();
-        if (data.top() == "*") multiply();
-        if (data.top() == "/") divide();
+        else if (data.top() == "+") add();
+        else if (data.top() == "*") multiply();
+        else if (data.top() == "/") divide();
+        else if (!isdigit(data.top()[0])) throw (std::invalid_argument("Error: not a number [" + data.top() + "]."));
     }
     if (data.size() > 1)
         throw (std::invalid_argument("Error: stack size."));
+    std::cout << data.top() << std::endl;
 }

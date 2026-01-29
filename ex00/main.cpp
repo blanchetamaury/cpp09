@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 11:32:14 by amaury            #+#    #+#             */
-/*   Updated: 2026/01/26 21:31:43 by amaury           ###   ########.fr       */
+/*   Updated: 2026/01/29 10:18:40 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool isValidDate(BitcoinExchange &data,const std::string& s, std::string *date, 
     int days[] = {31,28,31,30,31,30,31,31,30,31,30,31};
     if (m == 2 && isLeap(y))
 		days[1] = 29;
-	if (d < 1 && d > days[m - 1])
+	if (d < 1 || d > days[m - 1])
 		return false;
 	days[1] = 28;
 	std::stringstream ss;
