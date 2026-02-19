@@ -6,7 +6,7 @@
 /*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:19:16 by amblanch          #+#    #+#             */
-/*   Updated: 2026/01/26 15:54:01 by amblanch         ###   ########.fr       */
+/*   Updated: 2026/02/19 10:30:42 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,10 +167,10 @@ void    PmergeMe<FordJohnson,Jacobsthal>::printJacobsthal(std::string startInput
 
 template<typename FordJohnson, typename Jacobsthal>
 void    PmergeMe<FordJohnson,Jacobsthal>::initJacobList() {
+	jacobList.push_back(0);
+	jacobList.push_back(1);
 	jacobList.push_back(1);
 	jacobList.push_back(3);
-	jacobList.push_back(5);
-	jacobList.push_back(11);
 }
 
 template<typename FordJohnson, typename Jacobsthal>

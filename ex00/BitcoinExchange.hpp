@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amblanch <amblanch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:59:18 by amaury            #+#    #+#             */
-/*   Updated: 2026/01/18 13:27:02 by amaury           ###   ########.fr       */
+/*   Updated: 2026/02/19 10:15:33 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 class BitcoinExchange {
 	private:
-		std::map<std::string, float>	dataFile;
+		std::map<std::string, double>	dataFile;
 	public:
 		BitcoinExchange();
 		~BitcoinExchange();
@@ -29,7 +29,7 @@ class BitcoinExchange {
 		BitcoinExchange &operator=(const BitcoinExchange &other);
 
 		void							openData(std::string fileName);
-		std::map<std::string, float>	getData();
+		std::map<std::string, double>	getData();
 };
 
 #endif
